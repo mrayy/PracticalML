@@ -58,6 +58,17 @@ void draw() {
   else
     fill(255);
   ellipse(mouseX, mouseY,5,5);
+  
+  fill(255);
+  text( "Add points by pressing mouse left button", 5, 15 );
+  text( "Press 1 to change to first class", 5, 30 );
+  text( "Press 2 to change to second class", 5, 45 );
+  text( "Press 3 to change to thid class", 5, 60 );
+  text( "Press r to resend all data points", 5, 75 );
+  text( "Press q to stop sending data to Python", 5, 90 );
+  text( "Press c to clear all data points", 5, 105 );
+  
+  text( "Press space and press with mouse to predict point's class", 5, 120 );
 }
 
 

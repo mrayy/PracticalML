@@ -21,8 +21,7 @@ void setupOSC()
 
 void setup() {
     size(640,480);
-    background(255);
-    //noLoop();
+    clear();
     
     canvasImg = createImage(width,height,RGB);  // Make an image holder object
     setupOSC();
@@ -81,11 +80,20 @@ void sendOsc(PImage img) {
   oscP5.send(msg, dest);
 }
 
+void clear()
+{
+  
+    background(255);
+  fill(0, 0, 0);
+  text( "Draw by pressing mouse left button", 5, 15 );
+  text( "Press C to clear", 5, 30 );
+}
+
 void keyPressed()
 {
   if(key=='c')
   {
-    background(255);
+    clear();
   }
   
   if(key==' ')
