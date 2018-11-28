@@ -11,6 +11,8 @@ PImage canvasImg;
 int targetWidth=28;
 int targetHeight=28;
  
+byte[] data=new byte[targetWidth*targetHeight];
+  
 void setupOSC()
 {
   /* start oscP5, listening for incoming messages at port 12000 */
@@ -75,8 +77,12 @@ void sendOsc(PImage img) {
   msg.add(img.height);
   //send inputs
   for(int i=0;i<img.width*img.height;i++)
-    msg.add(1-(brightness(img.pixels[i])/255.0));//each pixel value is 0->255, however we need to make it to be 0->1 for training
+   {
+     byte v=(byte)(255-brightness(img.pixels[i]));//each pixel value is 0->255, however we need to make it to be 0->1 for training
+     data[i]=v;
+   }
     
+    msg.add(data);
   oscP5.send(msg, dest);
 }
 
