@@ -55,6 +55,11 @@ int targetHeight=512;
  
 byte[] data=new byte[targetWidth*targetHeight];
   
+String currentLabel="";
+int currentIndex=0;
+
+boolean _clear=false;
+
 void setupOSC()
 {
   /* start oscP5, listening for incoming messages at port 12000 */
@@ -65,7 +70,7 @@ void setupOSC()
 
 void setup() {
     size(640,480);
-    clear();
+    clearCanvas();
     
     canvasImg = createImage(width,height,RGB);  // Make an image holder object
     setupOSC();
@@ -82,7 +87,50 @@ void loop()
 }
 void draw()
 {
+  if(_clear==true)
+  {
+   clearCanvas();
+   _clear=false;
+  }
+  
 }
+
+void sendNext()
+{
+  OscMessage msg = new OscMessage("/inputs/next");
+  oscP5.send(msg, dest);
+}
+void sendReset()
+{
+  OscMessage msg = new OscMessage("/inputs/reset");
+  oscP5.send(msg, dest);
+}
+void sendQuit()
+{
+  OscMessage msg = new OscMessage("/quit");
+  oscP5.send(msg, dest);
+}
+void keyPressed()
+{
+   if(key=='n')
+     sendNext();
+   if(key=='r')
+     sendReset();
+   if(key=='q')
+     sendQuit();
+     
+     
+  if(key=='c')
+  {
+    clearCanvas();
+  }
+  
+  if(key==' ')
+  {
+    sendOsc(ProcessImage());
+  }
+}
+
 
 void mouseDragged() 
 { 
@@ -94,7 +142,7 @@ void mouseDragged()
 
 void mouseReleased()
 {
-    sendOsc(ProcessImage());
+   // sendOsc(ProcessImage());
 }
   
 
@@ -134,24 +182,28 @@ void sendOsc(PImage img) {
     
 }
 
-void clear()
+
+//This is called automatically when OSC message is received
+void oscEvent(OscMessage theOscMessage) {
+ if (theOscMessage.checkAddrPattern("/output/label")==true) {
+     println(theOscMessage.typetag());
+     if(theOscMessage.checkTypetag("is")) {
+       currentIndex=theOscMessage.get(0).intValue();
+       currentLabel=theOscMessage.get(1).stringValue();
+       _clear=true;
+     }
+ }
+ if (theOscMessage.checkAddrPattern("/output/done")==true) {
+ }
+}
+
+void clearCanvas()
 {
-  
+  clear();
+  print(currentLabel);
     background(255);
   fill(0, 0, 0);
   text( "Draw by pressing mouse left button", 5, 15 );
   text( "Press C to clear", 5, 30 );
-}
-
-void keyPressed()
-{
-  if(key=='c')
-  {
-    clear();
-  }
-  
-  if(key==' ')
-  {
-    sendOsc(ProcessImage());
-  }
+  text("Current Label:" + currentLabel, 10, 45);
 }
