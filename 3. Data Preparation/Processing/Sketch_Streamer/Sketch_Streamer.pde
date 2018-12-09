@@ -203,7 +203,7 @@ void clearCanvas()
   print(currentLabel);
     background(255);
   fill(0, 0, 0);
-  text( "Draw by pressing mouse left button", 5, 15 );
-  text( "Press C to clear", 5, 30 );
-  text("Current Label:" + currentLabel, 10, 45);
+  //text( "Draw by pressing mouse left button", 5, 15 );
+  //text( "Press C to clear", 5, 30 );
+  //text("Current Label:" + currentLabel, 10, 45);
 }
