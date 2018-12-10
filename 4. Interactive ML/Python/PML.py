@@ -62,16 +62,16 @@ from IPython.display import display
 import OSCHelper
 
 def GetOSCSamples(server,Label,features_names,DeviceID,NumberofSamples):
-    GetSamples.sample=[]
+    GetOSCSamples.sample=[]
 
     def reset_sample(length):
-        GetSamples.sample=list(np.zeros(length))
+        GetOSCSamples.sample=list(np.zeros(length))
 
-    GetSamples.features_count=len(features_names)
-    reset_sample(GetSamples.features_count)
+    GetOSCSamples.features_count=len(features_names)
+    reset_sample(GetOSCSamples.features_count)
 
-    GetSamples.progress_bar = IntProgress(min=0, max=NumberofSamples) # instantiate the bar
-    display(GetSamples.progress_bar) # display the bar
+    GetOSCSamples.progress_bar = IntProgress(min=0, max=NumberofSamples) # instantiate the bar
+    display(GetOSCSamples.progress_bar) # display the bar
     def onOSC_data(*args):
         dtype=str(args[0]).split('/')[-1]
         vals=list(args[1:])
@@ -80,25 +80,25 @@ def GetOSCSamples(server,Label,features_names,DeviceID,NumberofSamples):
             if dtype==f:
                 index=i
         if(index!=-1):
-            GetSamples.sample[index]=','.join([str(x) for x in vals])
+            GetOSCSamples.sample[index]=','.join([str(x) for x in vals])
 
         if dtype=='deviceinfo':
-            GetSamples.sample.append(Label)
-            GetSamples.samples.append(GetSamples.sample)
-            reset_sample(GetSamples.features_count)
-            GetSamples.progress_bar.value = len(GetSamples.samples)
+            GetOSCSamples.sample.append(Label)
+            GetOSCSamples.samples.append(GetOSCSamples.sample)
+            reset_sample(GetOSCSamples.features_count)
+            GetOSCSamples.progress_bar.value = len(GetOSCSamples.samples)
             #print(progress_bar.value)
             index=-1
-            if(len(GetSamples.samples)==NumberofSamples):
+            if(len(GetOSCSamples.samples)==NumberofSamples):
                 server.stop()
                 print("done samples")
 
     server.addMsgHandler("/ZIGSIM/Yamen/*", onOSC_data )
-    GetSamples.samples=[]
+    GetOSCSamples.samples=[]
     OSCHelper.start_server(server)
     server.removeMsgHandler("/ZIGSIM/Yamen/*")
 
-    return GetSamples.samples.copy()
+    return GetOSCSamples.samples.copy()
 
 
 def CollectSamplesOSC(server,features_names,labels,UUID,nPerLabel=200):
