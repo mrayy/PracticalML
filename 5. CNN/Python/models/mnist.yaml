@@ -21,7 +21,7 @@ config:
       config: {distribution: uniform, dtype: float32, mode: fan_avg, scale: 1.0, seed: null}
     kernel_regularizer: null
     kernel_size: !!python/tuple [3, 3]
-    name: conv2d_7
+    name: conv2d_12
     padding: valid
     strides: &id002 !!python/tuple [1, 1]
     trainable: true
@@ -30,11 +30,14 @@ config:
   config:
     data_format: channels_last
     dtype: float32
-    name: max_pooling2d_6
+    name: max_pooling2d_11
     padding: valid
     pool_size: !!python/tuple [2, 2]
     strides: !!python/tuple [2, 2]
     trainable: true
+- class_name: Dropout
+  config: {dtype: float32, name: dropout_2, noise_shape: null, rate: 0.2, seed: null,
+    trainable: true}
 - class_name: Conv2D
   config:
     activation: relu
@@ -53,8 +56,8 @@ config:
       class_name: VarianceScaling
       config: {distribution: uniform, dtype: float32, mode: fan_avg, scale: 1.0, seed: null}
     kernel_regularizer: null
-    kernel_size: &id003 !!python/tuple [3, 3]
-    name: conv2d_8
+    kernel_size: !!python/tuple [3, 3]
+    name: conv2d_13
     padding: valid
     strides: *id002
     trainable: true
@@ -63,46 +66,16 @@ config:
   config:
     data_format: channels_last
     dtype: float32
-    name: max_pooling2d_7
+    name: max_pooling2d_12
     padding: valid
     pool_size: !!python/tuple [2, 2]
     strides: !!python/tuple [2, 2]
     trainable: true
-- class_name: Conv2D
-  config:
-    activation: relu
-    activity_regularizer: null
-    bias_constraint: null
-    bias_initializer:
-      class_name: Zeros
-      config: {dtype: float32}
-    bias_regularizer: null
-    data_format: channels_last
-    dilation_rate: *id001
-    dtype: float32
-    filters: 128
-    kernel_constraint: null
-    kernel_initializer:
-      class_name: VarianceScaling
-      config: {distribution: uniform, dtype: float32, mode: fan_avg, scale: 1.0, seed: null}
-    kernel_regularizer: null
-    kernel_size: *id003
-    name: conv2d_9
-    padding: valid
-    strides: *id002
-    trainable: true
-    use_bias: true
-- class_name: MaxPooling2D
-  config:
-    data_format: channels_last
-    dtype: float32
-    name: max_pooling2d_8
-    padding: valid
-    pool_size: !!python/tuple [2, 2]
-    strides: !!python/tuple [2, 2]
-    trainable: true
+- class_name: Dropout
+  config: {dtype: float32, name: dropout_3, noise_shape: null, rate: 0.2, seed: null,
+    trainable: true}
 - class_name: Flatten
-  config: {data_format: channels_last, dtype: float32, name: flatten_1, trainable: true}
+  config: {data_format: channels_last, dtype: float32, name: flatten_3, trainable: true}
 - class_name: Dense
   config:
     activation: relu
@@ -118,9 +91,9 @@ config:
       class_name: VarianceScaling
       config: {distribution: uniform, dtype: float32, mode: fan_avg, scale: 1.0, seed: null}
     kernel_regularizer: null
-    name: dense_2
+    name: dense_6
     trainable: true
-    units: 64
+    units: 128
     use_bias: true
 - class_name: Dense
   config:
@@ -137,7 +110,7 @@ config:
       class_name: VarianceScaling
       config: {distribution: uniform, dtype: float32, mode: fan_avg, scale: 1.0, seed: null}
     kernel_regularizer: null
-    name: dense_3
+    name: dense_7
     trainable: true
     units: 10
     use_bias: true
