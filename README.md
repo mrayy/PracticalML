@@ -9,5 +9,5 @@ This repository contains materials related to the course Practical Machine Learn
 <br>&nbsp;&nbsp;[2. Supervised Learning](https://github.com/mrayy/PracticalML/blob/master/2.%20ML%20Algorithms/Session%202.ipynb)
 <br>&nbsp;&nbsp;[3. Preparing Data for Learning](https://github.com/mrayy/PracticalML/blob/master/3.%20Data%20Preparation/Session%203.ipynb)
 <br>&nbsp;&nbsp;[4. Interactive ML](https://github.com/mrayy/PracticalML/blob/master/4.%20Interactive%20ML/Session%204.ipynb)
-
+<br>&nbsp;&nbsp;[5. Convolutional NN](https://github.com/mrayy/PracticalML/blob/master/5.%20CNN/Session%205.ipynb) 
 Maintained by: MHD Yamen Saraiji (Course Lecturer)
