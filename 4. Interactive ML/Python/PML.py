@@ -76,6 +76,7 @@ def GetOSCSamples(server,Label,features_names,DeviceID,NumberofSamples):
         dtype=str(args[0]).split('/')[-1]
         vals=list(args[1:])
         index=-1
+        #print(dtype)
         for i,f in enumerate(features_names):
             if dtype==f:
                 index=i
@@ -89,14 +90,17 @@ def GetOSCSamples(server,Label,features_names,DeviceID,NumberofSamples):
             GetOSCSamples.progress_bar.value = len(GetOSCSamples.samples)
             #print(progress_bar.value)
             index=-1
+            if(len(GetOSCSamples.samples)%100==0):
+                print("{0}/{1} samples".format(len(GetOSCSamples.samples),NumberofSamples))
+
             if(len(GetOSCSamples.samples)==NumberofSamples):
                 server.stop()
                 print("done samples")
 
-    server.addMsgHandler("/ZIGSIM/Yamen/*", onOSC_data )
+    server.addMsgHandler("/ZIGSIM/"+DeviceID+"/*", onOSC_data )
     GetOSCSamples.samples=[]
     OSCHelper.start_server(server)
-    server.removeMsgHandler("/ZIGSIM/Yamen/*")
+    server.removeMsgHandler("/ZIGSIM/"+DeviceID+"/*")
 
     return GetOSCSamples.samples.copy()
 
