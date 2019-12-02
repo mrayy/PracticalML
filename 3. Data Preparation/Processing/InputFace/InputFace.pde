@@ -37,9 +37,9 @@ void setup() {
   f = createFont("Courier", 16);
   textFont(f);
   
-  /* start oscP5, listening for incoming messages at port 12000 */
-  oscP5 = new OscP5(this,9001);
-  dest = new NetAddress("127.0.0.1",9000);
+  /* start oscP5, listening for incoming messages at port 9000 */
+  oscP5 = new OscP5(this,9000);
+  dest = new NetAddress("127.0.0.1",6448);
   
   //run your code
   // The camera can be initialized directly using an 
@@ -49,7 +49,7 @@ void setup() {
   
   //prepare computer vision library for face detection
   opencv = new OpenCV(this, 640/2, 480/2);
-  opencv.loadCascade(OpenCV.CASCADE_FRONTALFACE);  
+  opencv.loadCascade(OpenCV.CASCADE_FRONTALFACE);  //select face detector filter
   
   sentImage=createImage(TargetWidth,TargetHeight,ALPHA);
   
@@ -66,7 +66,7 @@ void draw() {
     //run face detector on the image
     opencv.loadImage(cam);
     Rectangle[] faces = opencv.detect();
-    println(faces.length);
+    //println(faces.length);
     
     if(faces.length>0)
     {
@@ -81,6 +81,78 @@ void draw() {
       image(sentImage,width/2,0,width/2,height);
       text("Set Wekinator Input Length to:" + TargetWidth*TargetHeight, 10, 80);
     }
+  }
+}
+
+boolean _recording=false;
+
+void keyPressed()
+{
+  if(key==' ')
+  {
+    if(_recording==false)
+    {
+      OscMessage msg = new OscMessage("/wekinator/control/startRecording");
+      oscP5.send(msg, dest);
+      _recording=true;
+    }else{
+      OscMessage msg = new OscMessage("/wekinator/control/stopRecording");
+      oscP5.send(msg, dest);
+      _recording=false;
+    }
+  }
+  
+  if(key=='1')
+  {
+    
+      OscMessage msg = new OscMessage("/wekinator/control/outputs");
+      msg.add(1.0);
+      msg.add(0.0);
+      msg.add(0.0);
+      msg.add(0.0);
+      msg.add(0.0);
+      oscP5.send(msg, dest);
+      print("sending 1");
+  }
+  if(key=='2')
+  {
+      OscMessage msg = new OscMessage("/wekinator/control/outputs");
+      msg.add(0.0);
+      msg.add(1.0);
+      msg.add(0.0);
+      msg.add(0.0);
+      msg.add(0.0);
+      oscP5.send(msg, dest);
+  }
+  if(key=='3')
+  {
+      OscMessage msg = new OscMessage("/wekinator/control/outputs");
+      msg.add(0.0);
+      msg.add(0.0);
+      msg.add(1.0);
+      msg.add(0.0);
+      msg.add(0.0);
+      oscP5.send(msg, dest);
+  }
+  if(key=='4')
+  {
+      OscMessage msg = new OscMessage("/wekinator/control/outputs");
+      msg.add(0.0);
+      msg.add(0.0);
+      msg.add(0.0);
+      msg.add(1.0);
+      msg.add(0.0);
+      oscP5.send(msg, dest);
+  }
+  if(key=='5')
+  {
+      OscMessage msg = new OscMessage("/wekinator/control/outputs");
+      msg.add(0.0);
+      msg.add(0.0);
+      msg.add(0.0);
+      msg.add(0.0);
+      msg.add(1.0);
+      oscP5.send(msg, dest);
   }
 }
 

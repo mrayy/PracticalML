@@ -19,6 +19,7 @@ boolean intro=true;
 int score=0;
 void setup(){
   size(500,800);
+  frameRate(30);
   
   //Initialize OSC communication
   oscP5 = new OscP5(this,12000); //listen for OSC messages on port 12000 (Wekinator default)
@@ -29,8 +30,16 @@ void setup(){
     p[i]=new pillar(i);
   }
 }
+
+
+int jumptimer=0;
 void draw(){
   background(0);
+  jumptimer=jumptimer+1;
+  if(end){
+    b.move();
+    b.drag();
+  }
   b.drawBird();
   b.checkCollisions();
   for(int i = 0;i<3;i++){
@@ -68,6 +77,10 @@ void reset(){
  }
 }
 void Jump(){
+  
+if(jumptimer<10)
+  return;
+  jumptimer=0;
  b.jump();
  intro=false;
  if(end==false){
@@ -78,13 +91,6 @@ void Jump(){
 void OnNewValuesReceived(float[] values)
 {
   //process the received output values from wekinator
-  
-  if(values[0]>0.2){
-    if(end){
-      b.move();
-      b.drag();
-    }
-  }
   if(values[0]>0.7)
     Jump();
 }
