@@ -38,7 +38,7 @@ void setup() {
   textFont(f);
   
   /* start oscP5, listening for incoming messages at port 9000 */
-  oscP5 = new OscP5(this,9000);
+  oscP5 = new OscP5(this,0);
   dest = new NetAddress("127.0.0.1",6448);
   
   //run your code
