@@ -38,7 +38,7 @@ void setup() {
   //run your code
   // The camera can be initialized directly using an 
   // element from the array returned by list():
-  cam = new Capture(this,TargetWidth,TargetHeight,Capture.list()[0]);
+  cam = new Capture(this,320,240,Capture.list()[0]);
   cam.start(); 
   
   sentImage=createImage(TargetWidth,TargetHeight,ALPHA);

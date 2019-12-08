@@ -71,7 +71,7 @@ void draw() {
     if(faces.length>0)
     {
       //crop the image
-      PImage img=cam.get(faces[0].x, faces[0].y-10, faces[0].width, faces[0].height+20);
+      PImage img=cam.get(faces[0].x, faces[0].y-10, faces[0].width, faces[0].height+50);
       //resize it to the target dimensions
       img.resize(TargetWidth,TargetHeight);
       //send it to Wekinator

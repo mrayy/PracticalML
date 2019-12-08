@@ -1,0 +1,4 @@
+1, Idle
+2, Walk
+3, Run
+4, jogging
