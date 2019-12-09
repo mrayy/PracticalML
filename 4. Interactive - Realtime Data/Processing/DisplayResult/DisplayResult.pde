@@ -7,7 +7,7 @@ NetAddress dest;
 
 PFont f;
 
-final int OutputCount=4;
+final int OutputCount=1;
 float[] receivedValues=new float[OutputCount];
 
 String[] Labels=new String[]{"Idle", "Walk", "Run", "Jogging"};
@@ -47,13 +47,13 @@ void draw()
     image(images[PredictedLabel],100,100);
     text("Predicted Label: ["+ Labels[PredictedLabel]+ "] with an accuracy of: "+ int(PredictionAccuracy*100)+"%",5,60);
   }
-  text( "Listening for "+OutputCount+" values from /wek/outputs on port 12000", 5, 30 );
+  text( "Listening for 1 output of "+Labels.length+" classes from /wek/outputs on port 12000", 5, 30 );
 }
 
 void OnNewValuesReceived(float[] values)
 {
   //process the received output values from wekinator
-  
+  /*
   PredictionAccuracy=0;
   
   for(int i=0;i<values.length;++i)
@@ -66,7 +66,10 @@ void OnNewValuesReceived(float[] values)
   }
   
   if(PredictedLabel>=Labels.length)
-    PredictedLabel=0;
+    PredictedLabel=0;*/
+    PredictionAccuracy=1;
+    
+    PredictedLabel=int(values[0])-1;
 }
 
 //This is called automatically when OSC message is received
