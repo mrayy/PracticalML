@@ -17,7 +17,7 @@ void setup() {
   f = createFont("Courier", 16);
   textFont(f);
 
-  size(640, 480, P2D);
+  size(640, 480);
   noStroke();
   smooth();
   
