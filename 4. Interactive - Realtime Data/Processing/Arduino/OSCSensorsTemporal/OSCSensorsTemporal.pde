@@ -7,19 +7,14 @@ import netP5.*;
 OscP5 oscP5;
 NetAddress dest;
 
-Serial myPort;  // Create object from Serial class
-final int SENT_DATA= 6; //same as the one in arduino
-float[] sensor_data=new float[SENT_DATA]; //sensor data from arduino
-
-final int RECEIVED_DATA=3;//same as the one in arduino
-float[] receivedData=new float[RECEIVED_DATA];//data to be sent to arduino (control code)
-
 //To Wekinator
 final int TimeSeries=10; //time series samples
-final int SensorsCount=2;
+final int SensorsCount=1;
 final int FeaturesCount= SensorsCount*TimeSeries; //set the number of features your program generates
 float[] features=new float[FeaturesCount];
 
+final int OutputCount=1;
+float[] receivedValues=new float[OutputCount];
 
 void setup() 
 {
@@ -28,13 +23,14 @@ void setup()
   smooth();
   
   printArray(Serial.list());
-  //check the name/index of the Serial device in the list
-  String portName = Serial.list()[1];
+  int PortIndex=3;
+  String portName = Serial.list()[PortIndex];
+  println("Selecting Port["+PortIndex+"]: "+ portName);
   myPort = new Serial(this, portName, 9600);
   
   
   /* start oscP5, listening for incoming messages at port 12000 */
-  oscP5 = new OscP5(this,0);
+  oscP5 = new OscP5(this,12000);
   dest = new NetAddress("127.0.0.1",6448);
 }
 
@@ -76,7 +72,7 @@ void ArduinoDataArrived()
   //only use two features
   for (int j=0;j<SensorsCount;++j)
   {
-    features[j]=sensor_data[j];
+    features[j]=fromArduinoData[j];
   }
   
   sendOSC();//optional to send here
@@ -85,18 +81,10 @@ void ArduinoDataArrived()
 
 void keyPressed()
 {
-  if(key==' ')
-  {
-    receivedData[0]=1;
-  }
 }
 
 void keyReleased()
 {
-  if(key==' ')
-  {
-    receivedData[0]=0;
-  }
 }
 
 void sendOSC() {
@@ -105,4 +93,44 @@ void sendOSC() {
   for(int i=0;i<FeaturesCount;++i)
     msg.add((float)features[i]);
   oscP5.send(msg, dest);
+}
+
+
+void OnNewValuesReceived(float[] values)
+{
+  //process the received output values from wekinator
+  
+  if(values[0]==1)
+  {
+    toArduinoData[0]=1;
+    toArduinoData[1]=0;
+    toArduinoData[2]=0;
+  }
+  if(values[0]==2)
+  {
+    toArduinoData[0]=0;
+    toArduinoData[1]=1;
+    toArduinoData[2]=0;
+  }
+  if(values[0]==3)
+  {
+    toArduinoData[0]=0;
+    toArduinoData[1]=0;
+    toArduinoData[2]=1;
+  }
+}
+
+//This is called automatically when OSC message is received
+void oscEvent(OscMessage theOscMessage) {
+ if (theOscMessage.checkAddrPattern("/wek/outputs")==true) {
+ 
+     for(int i=0;i<OutputCount;++i)
+     {
+       receivedValues[i]=theOscMessage.get(i).floatValue();
+     }
+     
+     OnNewValuesReceived(receivedValues);
+   
+      println("Received new params value from Wekinator"); 
+ }
 }
