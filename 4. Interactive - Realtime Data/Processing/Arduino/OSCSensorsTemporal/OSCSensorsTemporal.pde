@@ -14,7 +14,7 @@ float[] sensor_data=new float[SENT_DATA]; //sensor data from arduino
 final int RECEIVED_DATA=3;//same as the one in arduino
 float[] receivedData=new float[RECEIVED_DATA];//data to be sent to arduino (control code)
 
-
+//To Wekinator
 final int TimeSeries=10; //time series samples
 final int SensorsCount=2;
 final int FeaturesCount= SensorsCount*TimeSeries; //set the number of features your program generates
