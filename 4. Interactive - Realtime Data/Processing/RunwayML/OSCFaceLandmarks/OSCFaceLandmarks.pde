@@ -88,6 +88,8 @@ void runwayDataEvent(JSONObject runwayData){
   // point the sketch data to the Runway incoming data 
   data = runwayData;
   
+  println("runway");
+  
   if(data!=null)
   {
     landmarks = data.getJSONArray("points");

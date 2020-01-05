@@ -13,6 +13,7 @@ void setup()
   String portName = Serial.list()[PortIndex];
   println("Selecting Port["+PortIndex+"]: "+ portName);
   myPort = new Serial(this, portName, 9600);
+  
 }
 
 
@@ -39,9 +40,23 @@ void ArduinoDataArrived()
 
 void keyPressed()
 {
-  if(key==' ')
+  if(key=='1')
   {
     toArduinoData[0]=1;
+    toArduinoData[1]=0;
+    toArduinoData[2]=0;
+  }
+  if(key=='2')
+  {
+    toArduinoData[0]=0;
+    toArduinoData[1]=1;
+    toArduinoData[2]=0;
+  }
+  if(key=='3')
+  {
+    toArduinoData[0]=0;
+    toArduinoData[1]=0;
+    toArduinoData[2]=1;
   }
 }
 

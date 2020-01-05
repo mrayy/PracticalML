@@ -8,7 +8,7 @@ OscP5 oscP5;
 NetAddress dest;
 
 //To Wekinator
-final int FeaturesCount= 2; //set the number of features your program generates
+final int FeaturesCount= 1; //set the number of features your program generates
 float[] features=new float[FeaturesCount];
 
 final int OutputCount=1;
@@ -59,7 +59,6 @@ void ArduinoDataArrived()
 {
   //only use two features
   features[0]=fromArduinoData[0];
-  features[1]=fromArduinoData[1];
   
   sendOSC();//optional to send here
   
@@ -77,20 +76,20 @@ void sendOSC() {
 void OnNewValuesReceived(float[] values)
 {
   //process the received output values from wekinator
-  
-  if(values[0]==1)
+  println(values[0]);
+  if(int(values[0])==1)
   {
     toArduinoData[0]=1;
     toArduinoData[1]=0;
     toArduinoData[2]=0;
   }
-  if(values[0]==2)
+  if(int(values[0])==2)
   {
     toArduinoData[0]=0;
     toArduinoData[1]=1;
     toArduinoData[2]=0;
   }
-  if(values[0]==3)
+  if(int(values[0])==3)
   {
     toArduinoData[0]=0;
     toArduinoData[1]=0;
