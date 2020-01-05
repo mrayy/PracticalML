@@ -84,8 +84,8 @@ void setup() {
       textInput[i][j]=cp5.addTextfield(str(i)+","+str(j))
               .setPosition(200+i*50,300+j*50)
               .setSize(50,30)
-              .setText(str(kernel_data[i][j]))
-              .setInputFilter(ControlP5.FLOAT);
+              .setText(str(kernel_data[i][j]));
+              //.setInputFilter(ControlP5.INTEGER);
     }
   }
   
@@ -126,7 +126,7 @@ void draw() {
     {
       for(int j=0;j<kernel_size;++j)
       {
-        kernel.put(i,j,kernel_data[i][j]*total);
+        kernel.put(j,i,kernel_data[i][j]*total);
       }
     }
     Imgproc.filter2D(opencv.getGray(),dstMat,-1,kernel);
